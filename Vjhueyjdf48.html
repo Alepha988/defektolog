@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моргунова Надежда - Учитель-дефектолог</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: #f9f9fb;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        h1,
+        h2 {
+            color: #5d5b8d;
+        }
+        
+        p {
+            color: #555;
+        }
+        /* Header */
+        
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: linear-gradient(to right, #f9f9fb, #e6e6fa);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        header img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin-right: 20px;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        header div {
+            text-align: left;
+        }
+        
+        header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        
+        header p {
+            margin: 5px 0 0;
+            font-size: 18px;
+            font-style: italic;
+        }
+        /* УТП */
+        
+        .utp {
+            margin-top: 120px;
+            display: flex;
+            align-items: center;
+            background: #fdfaff;
+            padding: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .utp img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .utp .content {
+            max-width: 600px;
+        }
+        
+        .utp h2 {
+            margin: 0 0 10px;
+        }
+        
+        .utp .services {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .utp .service-btn {
+            background: #ffffff;
+            color: #5d5b8d;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            cursor: default;
+        }
+        /* Контакты */
+        
+        .contacts {
+            background: #e6e6fa;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .contacts h2 {
+            margin: 0 0 20px;
+            color: #5d5b8d;
+        }
+        
+        .contacts .icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .contacts .icon,
+        .contacts .call-button {
+            padding: 10px 20px;
+            background: #ffffff;
+            color: #5d5b8d;
+            border-radius: 30px;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.3s;
+        }
+        
+        .contacts .icon:hover,
+        .contacts .call-button:hover {
+            background: #f7f4ff;
+            transform: scale(1.05);
+        }
+        /* FAQ */
+        
+        .faq {
+            padding: 20px;
+            background: #f9f9fb;
+        }
+        
+        .faq h2 {
+            margin-bottom: 20px;
+        }
+        
+        .faq-item {
+            margin-bottom: 10px;
+        }
+        
+        .faq-item button {
+            width: 100%;
+            text-align: left;
+            padding: 15px;
+            background: #fdfaff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            color: #5d5b8d;
+            transition: background 0.3s ease;
+        }
+        
+        .faq-item button:hover {
+            background: #f7f4ff;
+        }
+        
+        .faq-item button:after {
+            content: "+";
+            position: absolute;
+            right: 15px;
+        }
+        
+        .faq-item button.open:after {
+            content: "-";
+        }
+        
+        .faq-item p {
+            display: none;
+            padding: 10px 15px;
+            background: #ffffff;
+            border-radius: 8px;
+            margin-top: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .faq-item button.open+p {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Модальное окно */
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+        }
+        
+        .modal-content label {
+            display: block;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        
+        .modal-content input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        .modal-content button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #0056ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .modal-content button:hover {
+            background: #003bb3;
+        }
+        
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        /* Кнопка записи */
+        
+        .fixed-button {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 30px;
+            background: #0056ff;
+            color: white;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            border-radius: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        /* Отступ под последним блоком */
+        
+        .spacer {
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <img src="https://i.imgur.com/x4l8huK.png" alt="Портрет Надежды">
+        <div>
+            <h1>Моргунова Надежда</h1>
+            <p>Учитель-дефектолог</p>
+        </div>
+    </header>
+
+    <!-- УТП -->
+    <section class="utp">
+        <img src="https://via.placeholder.com/300" alt="Надежда на работе">
+        <div class="content">
+            <h2>Почему выбирают меня?</h2>
+            <div class="services">
+                <button class="service-btn">Развитие речи</button>
+                <button class="service-btn">Коррекция поведения</button>
+                <button class="service-btn">Подготовка к школе</button>
+                <button class="service-btn">Поддержка родителей</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты -->
+    <section class="contacts">
+        <h2>Свяжитесь со мной!</h2>
+        <div class="icons">
+            <a href="https://vk.com/defektolog48" target="_blank" class="icon">ВКонтакте</a>
+            <a href="https://vk.com/wall-227817400_1" target="_blank" class="icon">Отзывы</a>
+            <a href="https://t.me/+LNMnrV4t-aczYWUy" target="_blank" class="icon">Telegram</a>
+            <a href="https://wa.me/79205180506" target="_blank" class="icon">WhatsApp</a>
+            <a href="tel:+79205180506" class="call-button">Позвонить</a>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <h2>Часто задаваемые вопросы</h2>
+        <div class="faq-item">
+            <button>Какие услуги вы предоставляете?</button>
+            <p>Индивидуальные занятия с детьми с особыми образовательными потребностями.</p>
+        </div>
+        <div class="faq-item">
+            <button>Как записаться на консультацию?</button>
+            <p>Для записи нажмите кнопку "Записаться".</p>
+        </div>
+        <div class="faq-item">
+            <button>Сколько времени длится занятие?</button>
+            <p>Стандартное занятие длится 45–60 минут в зависимости от потребностей ребенка.</p>
+        </div>
+        <div class="faq-item">
+            <button>Какие методики вы используете?</button>
+            <p>Я применяю современные методики, такие как АВА-терапия, логопедические упражнения и арт-терапия.</p>
+        </div>
+        <div class="faq-item">
+            <button>Можно ли получить онлайн-консультацию?</button>
+            <p>Да, я провожу онлайн-консультации по предварительной записи.</p>
+        </div>
+    </section>
+
+    <!-- Второй блок контактов -->
+    <section class="contacts">
+        <h2>Свяжитесь со мной!</h2>
+        <div class="icons">
+            <a href="https://vk.com/defektolog48" target="_blank" class="icon">ВКонтакте</a>
+            <a href="https://vk.com/wall-227817400_1" target="_blank" class="icon">Отзывы</a>
+            <a href="https://t.me/+LNMnrV4t-aczYWUy" target="_blank" class="icon">Telegram</a>
+            <a href="https://wa.me/79205180506" target="_blank" class="icon">WhatsApp</a>
+            <a href="tel:+79205180506" class="call-button">Позвонить</a>
+        </div>
+    </section>
+
+    <!-- Отступ под последним блоком -->
+    <div class="spacer"></div>
+
+    <!-- Кнопка записи -->
+    <button class="fixed-button" id="openModalButton">
+  Записаться
+</button>
+
+    <!-- Модальное окно -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h2>Заполните данные для записи</h2>
+            <form id="bookingForm" onsubmit="handleFormSubmit(event)">
+                <label>Имя родителя: <input type="text" id="parentName" required></label>
+                <label>Имя ребенка: <input type="text" id="childName" required></label>
+                <label>Контактный номер: <input type="tel" id="contactNumber" required></label>
+                <label>Желаемая дата: <input type="date" id="desiredDate" required></label>
+                <label>Желаемое время: <input type="time" id="desiredTime" step="3600" required></label>
+                <button type="submit">Записаться</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Открытие модального окна
+        document.getElementById('openModalButton').addEventListener('pointerdown', () => {
+            document.getElementById('modal').style.display = 'flex';
+        });
+
+        // Закрытие модального окна
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // Раскрытие вопросов в FAQ
+        document.querySelectorAll('.faq-item button').forEach(button => {
+            button.addEventListener('click', () => {
+                button.classList.toggle('open');
+            });
+        });
+
+        // Обработка отправки формы
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            alert('Форма успешно отправлена!');
+            closeModal();
+        }
+    </script>
+</body>
+
+</html>
