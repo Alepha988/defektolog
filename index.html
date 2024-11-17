@@ -433,7 +433,7 @@
         }),
       });
 
-      const result = await response.json();
+      const result = await response.json()
       console.log(`Ответ Telegram API для chat_id ${chatId}:`, result);
 
       if (!result.ok) {
