@@ -449,12 +449,28 @@
             });
         });
 
-        // Обработка отправки формы
-        function handleFormSubmit(event) {
-            event.preventDefault();
-            alert('Форма успешно отправлена!');
-            closeModal();
-        }
+       // Обработка отправки формы
+async function handleFormSubmit(event) {
+    event.preventDefault();
+
+    const parentName = document.getElementById('parentName').value;
+    const childName = document.getElementById('childName').value;
+    const contactNumber = document.getElementById('contactNumber').value;
+    const desiredDate = document.getElementById('desiredDate').value;
+    const desiredTime = document.getElementById('desiredTime').value;
+
+    const data = { parentName, childName, contactNumber, desiredDate, desiredTime };
+
+    try {
+        await sendToTelegram(data); // Отправка данных в Telegram
+        alert('Форма успешно отправлена!');
+        closeModal();
+    } catch (error) {
+        alert('Ошибка при отправке данных. Попробуйте позже.');
+        console.error('Ошибка при отправке формы:', error);
+    }
+}
+
     </script>
 </body>
 
