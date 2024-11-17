@@ -404,6 +404,41 @@
             document.getElementById('modal').style.display = 'none';
         }
 
+        async function sendToTelegram(data) {
+  const botToken = 'ВАШ_ТОКЕН_БОТА';
+  const chatId = 'ВАШ_CHAT_ID';
+  const text = `
+    Новая запись:
+    - Имя родителя: ${data.parentName}
+    - Имя ребенка: ${data.childName}
+    - Контактный номер: ${data.contactNumber}
+    - Желаемая дата: ${data.desiredDate}
+    - Желаемое время: ${data.desiredTime}
+  `;
+
+  const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: text,
+      }),
+    });
+
+    const result = await response.json();
+    console.log('Ответ Telegram API:', result); // Отладка
+    if (!result.ok) {
+      alert('Ошибка отправки в Telegram: ' + result.description);
+    }
+  } catch (error) {
+    console.error('Ошибка при отправке сообщения:', error); // Отладка
+    alert('Ошибка при отправке сообщения в Telegram.');
+  }
+}
+
         // Раскрытие вопросов в FAQ
         document.querySelectorAll('.faq-item button').forEach(button => {
             button.addEventListener('click', () => {
