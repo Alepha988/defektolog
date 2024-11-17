@@ -429,15 +429,16 @@
     });
 
     const result = await response.json();
-    console.log('Ответ Telegram API:', result); // Отладка
+    console.log('Ответ Telegram API:', result); // Для отладки
+
     if (!result.ok) {
       alert('Ошибка отправки в Telegram: ' + result.description);
     }
   } catch (error) {
-    console.error('Ошибка при отправке сообщения:', error); // Отладка
+    console.error('Ошибка при отправке сообщения:', error); // Для отладки
     alert('Ошибка при отправке сообщения в Telegram.');
   }
-}
+}ww
 
         // Раскрытие вопросов в FAQ
         document.querySelectorAll('.faq-item button').forEach(button => {
