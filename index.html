@@ -407,49 +407,41 @@
         }
 
         async function sendToTelegram(data) {
-    console.log("Отправка данных началась"); // Отладка
-    const botToken = '8086571902:AAF58ce0NgMMErT7vHtRLi5PMUOmPwRYwgE';
-    const chatId = '802174256';
-    const text = `
-      Новая запись:
-      - Имя родителя: ${data.parentName}
-      - Имя ребенка: ${data.childName}
-      - Контактный номер: ${data.contactNumber}
-      - Желаемая дата: ${data.desiredDate}
-      - Желаемое время: ${data.desiredTime}
-    `;
+  const botToken = '8086571902:AAF58ce0NgMMErT7vHtRLi5PMUOmPwRYwgE';
+  const chatIds = ['802174256', '5732115529']; // Список chat_id
 
-    console.log("Сообщение для Telegram:", text); // Отладка
-    const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+  const text = `
+    Новая запись:
+    - Имя родителя: ${data.parentName}
+    - Имя ребенка: ${data.childName}
+    - Контактный номер: ${data.contactNumber}
+    - Желаемая дата: ${data.desiredDate}
+    - Желаемое время: ${data.desiredTime}
+  `;
 
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: chatId, text: text }),
-        });
+  const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
-        const result = await response.json();
-        console.log("Ответ Telegram API:", result); // Покажет ответ API
+  try {
+    // Отправляем сообщение каждому chat_id
+    for (const chatId of chatIds) {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: text,
+        }),
+      });
 
-        if (!result.ok) {
-            alert('Ошибка отправки в Telegram: ' + result.description);
-        }
-    } catch (error) {
-        console.error("Ошибка при отправке сообщения:", error); // Покажет ошибки
-        alert('Ошибка при отправке сообщения в Telegram.');
-    }
-}
+      const result = await response.json();
+      console.log(`Ответ Telegram API для chat_id ${chatId}:`, result);
 
-
-    const result = await response.json();
-    console.log('Ответ Telegram API:', result); // Для отладки
-
-    if (!result.ok) {
-      alert('Ошибка отправки в Telegram: ' + result.description);
+      if (!result.ok) {
+        alert(`Ошибка отправки в Telegram для chat_id ${chatId}: ${result.description}`);
+      }
     }
   } catch (error) {
-    console.error('Ошибка при отправке сообщения:', error); // Для отладки
+    console.error('Ошибка при отправке сообщения:', error);
     alert('Ошибка при отправке сообщения в Telegram.');
   }
 }
