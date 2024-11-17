@@ -407,28 +407,40 @@
         }
 
         async function sendToTelegram(data) {
-  const botToken = '8086571902:AAF58ce0NgMMErT7vHtRLi5PMUOmPwRYwgE';
-  const chatId = '802174256';
-  const text = `
-    Новая запись:
-    - Имя родителя: ${data.parentName}
-    - Имя ребенка: ${data.childName}
-    - Контактный номер: ${data.contactNumber}
-    - Желаемая дата: ${data.desiredDate}
-    - Желаемое время: ${data.desiredTime}
-  `;
+    console.log("Отправка данных началась"); // Отладка
+    const botToken = '8086571902:AAF58ce0NgMMErT7vHtRLi5PMUOmPwRYwgE';
+    const chatId = '802174256';
+    const text = `
+      Новая запись:
+      - Имя родителя: ${data.parentName}
+      - Имя ребенка: ${data.childName}
+      - Контактный номер: ${data.contactNumber}
+      - Желаемая дата: ${data.desiredDate}
+      - Желаемое время: ${data.desiredTime}
+    `;
 
-  const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+    console.log("Сообщение для Telegram:", text); // Отладка
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: text,
-      }),
-    });
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: chatId, text: text }),
+        });
+
+        const result = await response.json();
+        console.log("Ответ Telegram API:", result); // Покажет ответ API
+
+        if (!result.ok) {
+            alert('Ошибка отправки в Telegram: ' + result.description);
+        }
+    } catch (error) {
+        console.error("Ошибка при отправке сообщения:", error); // Покажет ошибки
+        alert('Ошибка при отправке сообщения в Telegram.');
+    }
+}
+
 
     const result = await response.json();
     console.log('Ответ Telegram API:', result); // Для отладки
@@ -449,9 +461,10 @@
             });
         });
 
-       // Обработка отправки формы
-async function handleFormSubmit(event) {
+    async function handleFormSubmit(event) {
     event.preventDefault();
+
+    console.log("Форма отправлена!"); // Проверка вызова функции
 
     const parentName = document.getElementById('parentName').value;
     const childName = document.getElementById('childName').value;
@@ -459,18 +472,21 @@ async function handleFormSubmit(event) {
     const desiredDate = document.getElementById('desiredDate').value;
     const desiredTime = document.getElementById('desiredTime').value;
 
+    console.log("Данные из формы:", { parentName, childName, contactNumber, desiredDate, desiredTime }); // Проверка данных
+
     const data = { parentName, childName, contactNumber, desiredDate, desiredTime };
 
     try {
         await sendToTelegram(data); // Отправка данных в Telegram
+        console.log("Данные отправлены в Telegram"); // Убедимся, что sendToTelegram вызывается
         alert('Форма успешно отправлена!');
         closeModal();
     } catch (error) {
+        console.error("Ошибка при отправке в Telegram:", error); // Покажет ошибки, если есть
         alert('Ошибка при отправке данных. Попробуйте позже.');
-        console.error('Ошибка при отправке формы:', error);
     }
 }
-
+        
     </script>
 </body>
 
